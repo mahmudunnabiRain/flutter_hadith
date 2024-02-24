@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hadith/src/controllers/hadith_controller.dart';
 import 'package:flutter_hadith/src/screens/home_screen.dart';
+import 'package:flutter_hadith/src/settings/settings_screen.dart';
 import 'package:flutter_hadith/src/widgets/my_indicator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -34,11 +35,12 @@ class _MainScreenState extends State<MainScreen> {
                 children: [
                   const HomeScreen(),
                   Container(),
-                  Container(),
+                  const SettingsScreen(),
                 ],
               ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
+          selectedItemColor: Theme.of(context).primaryColor,
           items: [
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
@@ -50,19 +52,19 @@ class _MainScreenState extends State<MainScreen> {
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
-                'assets/svgs/home-1-svgrepo-com.svg',
-                semanticsLabel: 'Home Icon',
+                'assets/svgs/heart-svgrepo-com.svg',
+                semanticsLabel: 'Favorite Icon',
                 colorFilter: ColorFilter.mode(_currentIndex == 1 ? Theme.of(context).primaryColor : Colors.grey, BlendMode.srcIn),
               ),
-              label: 'হোম',
+              label: 'প্রিয় হাদিস',
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
-                'assets/svgs/home-1-svgrepo-com.svg',
-                semanticsLabel: 'Home Icon',
+                'assets/svgs/settings-minimalistic-svgrepo-com.svg',
+                semanticsLabel: 'Settings Icon',
                 colorFilter: ColorFilter.mode(_currentIndex == 2 ? Theme.of(context).primaryColor : Colors.grey, BlendMode.srcIn),
               ),
-              label: 'হোম',
+              label: 'সেটিংস',
             ),
           ],
           onTap: (index) {

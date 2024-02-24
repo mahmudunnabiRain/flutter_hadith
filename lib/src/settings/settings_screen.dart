@@ -18,7 +18,7 @@ class SettingsScreen extends StatelessWidget {
     SettingsController settingsController = Get.find<SettingsController>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: const Text('সেটিংস'),
       ),
       body: Obx(
         () => Padding(

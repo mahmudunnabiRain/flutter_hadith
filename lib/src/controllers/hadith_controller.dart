@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_hadith/src/models/book.dart';
+import 'package:flutter_hadith/src/models/chapter.dart';
 import 'package:get/get.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -68,6 +69,18 @@ class HadithController extends GetxController {
 
     List<Book> books = res.map((map) => Book.fromMap(map)).toList();
     return books;
+  }
+
+  Future<List<Chapter>> getAllChaptersByBookId({required int bookId}) async {
+    var db = await database;
+    var res = await db.rawQuery('''
+    SELECT chapter.id, chapter.chapter_id, chapter.book_id, chapter.title, chapter.number, chapter.hadis_range, chapter.book_name
+    FROM chapter
+    WHERE chapter.book_id = ?
+  ''', [bookId]);
+
+    List<Chapter> chapters = res.map((map) => Chapter.fromMap(map)).toList();
+    return chapters;
   }
 
   Future<int> getNumberOfHadiths() async {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hadith/src/controllers/hadith_controller.dart';
 import 'package:flutter_hadith/src/models/book.dart';
+import 'package:flutter_hadith/src/screens/chapters_screen.dart';
 import 'package:flutter_hadith/src/settings/settings_screen.dart';
 import 'package:flutter_hadith/src/utils/helpers.dart';
 import 'package:flutter_svg/svg.dart';
@@ -32,18 +33,15 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('আল হাদিস'),
-        // backgroundColor: Colors.green,
         actions: [
-          IconButton(
-            icon: SvgPicture.asset(
-              'assets/svgs/settings-minimalistic-svgrepo-com.svg',
-              semanticsLabel: 'Home Icon',
-              colorFilter: ColorFilter.mode(Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white, BlendMode.srcIn),
-            ),
-            onPressed: () {
-              Navigator.restorablePushNamed(context, SettingsScreen.routeName);
-            },
+          SvgPicture.asset(
+            height: 32,
+            width: 32,
+            'assets/svgs/notebook-square-svgrepo-com.svg',
+            semanticsLabel: 'Home Icon',
+            colorFilter: ColorFilter.mode(Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white, BlendMode.srcIn),
           ),
+          const SizedBox(width: 16),
         ],
       ),
       body: SingleChildScrollView(
@@ -62,6 +60,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   return Container(
                     margin: const EdgeInsets.only(bottom: 16),
                     child: ListTile(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          ChapterScreen.routeName,
+                          arguments: book,
+                        );
+                      },
                       leading: Stack(
                         alignment: Alignment.center,
                         children: [
