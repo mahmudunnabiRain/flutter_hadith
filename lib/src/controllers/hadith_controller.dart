@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:flutter_hadith/src/models/book.dart';
 import 'package:get/get.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -56,15 +57,17 @@ class HadithController extends GetxController {
     return await db.query(table);
   }
 
-  Future<List<Map<String, dynamic>>> getAllBooks() async {
+  Future<List<Book>> getAllBooks() async {
     var db = await database;
     var res = await db.rawQuery('''
-    SELECT books.book_name, COUNT(hadith.id) as hadith_count
+    SELECT books.id, books.title, books.title_ar, books.number_of_hadis, books.abvr_code, books.book_name, books.book_descr, books.color_code, COUNT(hadith.id) as hadith_count
     FROM books
     LEFT JOIN hadith ON books.id = hadith.book_id
-    GROUP BY books.book_name
+    GROUP BY books.id
   ''');
-    return res;
+
+    List<Book> books = res.map((map) => Book.fromMap(map)).toList();
+    return books;
   }
 
   Future<int> getNumberOfHadiths() async {
