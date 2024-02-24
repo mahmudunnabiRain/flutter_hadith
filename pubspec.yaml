@@ -16,6 +16,8 @@ dependencies:
     sdk: flutter
   get: ^4.6.6
   flutter_svg: ^2.0.10+1
+  path_provider: ^2.1.2
+  sqflite: ^2.3.2
   # share_plus: ^7.2.2
   # drift: ^2.15.0
 
@@ -35,3 +37,4 @@ flutter:
     # Add assets from the images directory to the application.
     - assets/images/
     - assets/svgs/
+    - assets/hadith_bn_test.db
