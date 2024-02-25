@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hadith/src/controllers/hadith_controller.dart';
@@ -254,6 +255,12 @@ class HadithWidget extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     log('hadith option pressed');
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const BottomSheetContent();
+                      },
+                    );
                   },
                   child: const Icon(
                     Icons.more_vert,
@@ -298,6 +305,108 @@ class HadithWidget extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class BottomSheetContent extends StatelessWidget {
+  const BottomSheetContent({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BackdropFilter(
+      filter: ImageFilter.blur(sigmaX: 0.5, sigmaY: 0.5),
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  const Text(
+                    'অন্যান্য অপশন',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: SvgPicture.asset(
+                      height: 30,
+                      width: 30,
+                      'assets/svgs/cross-svgrepo-com.svg',
+                      colorFilter: const ColorFilter.mode(Colors.grey, BlendMode.srcIn),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+              renderOption(
+                context: context,
+                label: 'প্রিয় হাদিস যুক্ত করুন',
+                svgPath: 'assets/svgs/heart-svgrepo-com.svg',
+              ),
+              renderOption(
+                context: context,
+                label: 'বাংলা কপি',
+                svgPath: 'assets/svgs/copy-svgrepo-com.svg',
+              ),
+              renderOption(
+                context: context,
+                label: 'আরবি কপি',
+                svgPath: 'assets/svgs/copy-svgrepo-com.svg',
+              ),
+              renderOption(
+                context: context,
+                label: 'সম্পূর্ণ হাদিস কপি',
+                svgPath: 'assets/svgs/copy-svgrepo-com.svg',
+              ),
+              renderOption(
+                context: context,
+                label: 'রিপোর্ট',
+                svgPath: 'assets/svgs/info-square-svgrepo-com.svg',
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  renderOption({required BuildContext context, required String label, required String svgPath}) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            SvgPicture.asset(
+              height: 24,
+              width: 24,
+              svgPath,
+              colorFilter: ColorFilter.mode(Theme.of(context).primaryColor, BlendMode.srcIn),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+      ],
     );
   }
 }
