@@ -104,6 +104,7 @@ class HadithController extends GetxController {
         hadithsBySection.putIfAbsent(hadith.sectionId, () => []).add(hadith);
       } catch (e) {
         // hadith data invalid
+        log("hadith data invalid.");
       }
     }
 
@@ -113,6 +114,7 @@ class HadithController extends GetxController {
         sections.add(Section.fromMap(map, hadithsBySection[map['section_id']] ?? []));
       } catch (e) {
         // section data invalid
+        log("section data invalid.");
       }
     }
 

@@ -7,6 +7,7 @@ import 'package:flutter_hadith/src/models/chapter.dart';
 import 'package:flutter_hadith/src/models/hadith.dart';
 import 'package:flutter_hadith/src/models/section.dart';
 import 'package:flutter_hadith/src/utils/helpers.dart';
+import 'package:flutter_hadith/src/widgets/my_indicator.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
@@ -22,6 +23,7 @@ class ChapterScreen extends StatefulWidget {
 }
 
 class _ChapterScreenState extends State<ChapterScreen> {
+  bool _loading = false;
   final hadithController = Get.find<HadithController>();
   List<Section> sectionList = [];
   @override
@@ -31,9 +33,14 @@ class _ChapterScreenState extends State<ChapterScreen> {
   }
 
   initSectionList() async {
+    setState(() {
+      _loading = true;
+    });
     sectionList = await hadithController.getSections(bookId: widget.chapter.bookId, chapterId: widget.chapter.chapterId);
     if (mounted) {
-      setState(() {});
+      setState(() {
+        _loading = false;
+      });
     }
   }
 
@@ -44,8 +51,8 @@ class _ChapterScreenState extends State<ChapterScreen> {
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           icon: SvgPicture.asset(
-            height: 24,
-            width: 24,
+            height: 20,
+            width: 20,
             'assets/svgs/left-arrow-backup-2-svgrepo-com.svg',
             semanticsLabel: 'Home Icon',
             colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
@@ -64,21 +71,23 @@ class _ChapterScreenState extends State<ChapterScreen> {
           ],
         ),
       ),
-      body: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16),
-        child: ListView.builder(
-          shrinkWrap: true,
-          physics: const AlwaysScrollableScrollPhysics(),
-          itemCount: sectionList.length,
-          itemBuilder: (context, index) {
-            Section section = sectionList[index];
-            return Container(
-              margin: EdgeInsets.only(bottom: 16, top: index == 0 ? 16 : 0),
-              child: SectionWidget(book: widget.book, section: section, index: index),
-            );
-          },
-        ),
-      ),
+      body: _loading
+          ? const MyIndicator()
+          : Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const AlwaysScrollableScrollPhysics(),
+                itemCount: sectionList.length,
+                itemBuilder: (context, index) {
+                  Section section = sectionList[index];
+                  return Container(
+                    margin: EdgeInsets.only(bottom: 16, top: index == 0 ? 16 : 0),
+                    child: SectionWidget(book: widget.book, section: section, index: index),
+                  );
+                },
+              ),
+            ),
     );
   }
 }
@@ -244,7 +253,7 @@ class HadithWidget extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    log('option pressed');
+                    log('hadith option pressed');
                   },
                   child: const Icon(
                     Icons.more_vert,

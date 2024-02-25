@@ -9,7 +9,7 @@ class Section {
   final String title;
   final String preface;
   final String number;
-  final int sortOrder;
+  final int? sortOrder;
   final List<Hadith> hadiths;
 
   Section({

@@ -40,8 +40,8 @@ class _BookScreenState extends State<BookScreen> {
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           icon: SvgPicture.asset(
-            height: 24,
-            width: 24,
+            height: 20,
+            width: 20,
             'assets/svgs/left-arrow-backup-2-svgrepo-com.svg',
             semanticsLabel: 'Home Icon',
             colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
