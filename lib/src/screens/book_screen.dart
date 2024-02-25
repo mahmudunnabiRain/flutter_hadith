@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hadith/src/controllers/hadith_controller.dart';
 import 'package:flutter_hadith/src/models/book.dart';
 import 'package:flutter_hadith/src/models/chapter.dart';
+import 'package:flutter_hadith/src/screens/chapter_screen.dart';
 import 'package:flutter_hadith/src/utils/helpers.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class ChapterScreen extends StatefulWidget {
-  const ChapterScreen({super.key, required this.book});
+class BookScreen extends StatefulWidget {
+  const BookScreen({super.key, required this.book});
   final Book book;
 
-  static const routeName = '/chapters-screen';
+  static const routeName = '/book-screen';
 
   @override
-  State<ChapterScreen> createState() => _ChapterScreenState();
+  State<BookScreen> createState() => _BookScreenState();
 }
 
-class _ChapterScreenState extends State<ChapterScreen> {
+class _BookScreenState extends State<BookScreen> {
   final hadithController = Get.find<HadithController>();
   List<Chapter> chapterList = [];
   @override
@@ -26,7 +27,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
   }
 
   initChapterList() async {
-    chapterList = await hadithController.getAllChaptersByBookId(bookId: widget.book.id);
+    chapterList = await hadithController.getChapters(bookId: widget.book.id);
     setState(() {});
   }
 
@@ -47,6 +48,16 @@ class _ChapterScreenState extends State<ChapterScreen> {
             return Container(
               margin: EdgeInsets.only(bottom: 16, top: index == 0 ? 16 : 0),
               child: ListTile(
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    ChapterScreen.routeName,
+                    arguments: {
+                      'book': widget.book,
+                      'chapter': chapter,
+                    },
+                  );
+                },
                 leading: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -65,7 +76,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
                       style: const TextStyle(
                         fontSize: 14,
                         color: Colors.white,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],

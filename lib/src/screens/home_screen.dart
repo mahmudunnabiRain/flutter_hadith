@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hadith/src/controllers/hadith_controller.dart';
 import 'package:flutter_hadith/src/models/book.dart';
-import 'package:flutter_hadith/src/screens/chapters_screen.dart';
-import 'package:flutter_hadith/src/settings/settings_screen.dart';
+import 'package:flutter_hadith/src/screens/book_screen.dart';
 import 'package:flutter_hadith/src/utils/helpers.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  static const routeName = '/home-screen';
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -24,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   initBookList() async {
-    bookList = await hadithController.getAllBooks();
+    bookList = await hadithController.getBooks();
     setState(() {});
   }
 
@@ -63,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () {
                         Navigator.pushNamed(
                           context,
-                          ChapterScreen.routeName,
+                          BookScreen.routeName,
                           arguments: book,
                         );
                       },
@@ -105,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       trailing: Text(
-                        'মোট হাদিস\n${toBengaliNumber(book.hadithCount.toString())}',
+                        'মোট হাদিস\n${toBengaliNumber(book.numberOfHadis.toString())}',
                         textAlign: TextAlign.center,
                       ),
                     ),

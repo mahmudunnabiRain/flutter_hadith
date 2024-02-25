@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_hadith/src/models/book.dart';
 import 'package:flutter_hadith/src/models/chapter.dart';
+import 'package:flutter_hadith/src/models/hadith.dart';
+import 'package:flutter_hadith/src/models/section.dart';
 import 'package:get/get.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -58,20 +60,18 @@ class HadithController extends GetxController {
     return await db.query(table);
   }
 
-  Future<List<Book>> getAllBooks() async {
+  Future<List<Book>> getBooks() async {
     var db = await database;
     var res = await db.rawQuery('''
-    SELECT books.id, books.title, books.title_ar, books.number_of_hadis, books.abvr_code, books.book_name, books.book_descr, books.color_code, COUNT(hadith.id) as hadith_count
+    SELECT books.id, books.title, books.title_ar, books.number_of_hadis, books.abvr_code, books.book_name, books.book_descr, books.color_code
     FROM books
-    LEFT JOIN hadith ON books.id = hadith.book_id
-    GROUP BY books.id
   ''');
 
     List<Book> books = res.map((map) => Book.fromMap(map)).toList();
     return books;
   }
 
-  Future<List<Chapter>> getAllChaptersByBookId({required int bookId}) async {
+  Future<List<Chapter>> getChapters({required int bookId}) async {
     var db = await database;
     var res = await db.rawQuery('''
     SELECT chapter.id, chapter.chapter_id, chapter.book_id, chapter.title, chapter.number, chapter.hadis_range, chapter.book_name
@@ -81,6 +81,34 @@ class HadithController extends GetxController {
 
     List<Chapter> chapters = res.map((map) => Chapter.fromMap(map)).toList();
     return chapters;
+  }
+
+  Future<List<Section>> getSections({required int bookId, required int chapterId}) async {
+    var db = await database;
+    var res = await db.rawQuery('''
+    SELECT section.id, section.book_id, section.book_name, section.chapter_id, section.section_id, section.title, section.preface, section.number, section.sort_order
+    FROM section
+    WHERE section.book_id = ? AND section.chapter_id = ?
+  ''', [bookId, chapterId]);
+
+    var hadithRes = await db.rawQuery('''
+    SELECT hadith.id, hadith.book_id, hadith.book_name, hadith.chapter_id, hadith.section_id, hadith.hadith_key, hadith.hadith_id, hadith.narrator, hadith.bn, hadith.ar, hadith.ar_diacless, hadith.note, hadith.grade_id, hadith.grade, hadith.grade_color
+    FROM hadith
+    WHERE hadith.book_id = ? AND hadith.chapter_id = ?
+  ''', [bookId, chapterId]);
+
+    var hadithsBySection = <int, List<Hadith>>{};
+    for (var map in hadithRes) {
+      var hadith = Hadith.fromMap(map);
+      hadithsBySection.putIfAbsent(hadith.sectionId, () => []).add(hadith);
+    }
+
+    List<Section> sections = [];
+    for (var map in res) {
+      sections.add(Section.fromMap(map, hadithsBySection[map['section_id']] ?? []));
+    }
+
+    return sections;
   }
 
   Future<int> getNumberOfHadiths() async {

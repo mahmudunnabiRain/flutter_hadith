@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hadith/src/models/book.dart';
-import 'package:flutter_hadith/src/screens/chapters_screen.dart';
+import 'package:flutter_hadith/src/models/chapter.dart';
+import 'package:flutter_hadith/src/screens/book_screen.dart';
+import 'package:flutter_hadith/src/screens/chapter_screen.dart';
 import 'package:flutter_hadith/src/screens/main_screen.dart';
 import 'package:get/get.dart';
 import 'settings/settings_controller.dart';
@@ -64,10 +66,14 @@ class MyApp extends StatelessWidget {
                   return const MainScreen();
                 case SettingsScreen.routeName:
                   return const SettingsScreen();
-                case ChapterScreen.routeName:
-                  // Ensure the arguments are of type Book
+                case BookScreen.routeName:
                   final book = routeSettings.arguments as Book;
-                  return ChapterScreen(book: book);
+                  return BookScreen(book: book);
+                case ChapterScreen.routeName:
+                  final args = routeSettings.arguments as Map<String, dynamic>;
+                  final chapter = args['chapter'] as Chapter;
+                  final book = args['book'] as Book;
+                  return ChapterScreen(book: book, chapter: chapter);
                 default:
                   return const MainScreen();
               }

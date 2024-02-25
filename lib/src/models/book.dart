@@ -7,7 +7,6 @@ class Book {
   final String bookName;
   final String bookDescr;
   final String colorCode;
-  int hadithCount;
 
   Book({
     required this.id,
@@ -18,7 +17,6 @@ class Book {
     required this.bookName,
     required this.bookDescr,
     required this.colorCode,
-    required this.hadithCount,
   });
 
   factory Book.fromMap(Map<String, dynamic> map) {
@@ -31,7 +29,6 @@ class Book {
       bookName: map['book_name'],
       bookDescr: map['book_descr'],
       colorCode: map['color_code'],
-      hadithCount: map['hadith_count'],
     );
   }
 
@@ -45,7 +42,6 @@ class Book {
       'book_name': bookName,
       'book_descr': bookDescr,
       'color_code': colorCode,
-      'hadith_count': hadithCount,
     };
   }
 }
