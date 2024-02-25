@@ -34,7 +34,11 @@ class _MainScreenState extends State<MainScreen> {
                 index: _currentIndex,
                 children: [
                   const HomeScreen(),
-                  Container(),
+                  Scaffold(
+                    appBar: AppBar(
+                      title: const Text('প্রিয় হাদিস'),
+                    ),
+                  ),
                   const SettingsScreen(),
                 ],
               ),

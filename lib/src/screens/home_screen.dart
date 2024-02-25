@@ -26,24 +26,28 @@ class _HomeScreenState extends State<HomeScreen> {
 
   initBookList() async {
     bookList = await hadithController.getBooks();
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('আল হাদিস'),
-        actions: [
-          SvgPicture.asset(
-            height: 32,
-            width: 32,
-            'assets/svgs/notebook-square-svgrepo-com.svg',
-            semanticsLabel: 'Home Icon',
-            colorFilter: ColorFilter.mode(Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white, BlendMode.srcIn),
-          ),
-          const SizedBox(width: 16),
-        ],
+        title: Row(
+          children: [
+            SvgPicture.asset(
+              height: 24,
+              width: 24,
+              'assets/svgs/notebook-square-svgrepo-com.svg',
+              semanticsLabel: 'Home Icon',
+              colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+            ),
+            const SizedBox(width: 12),
+            const Text('আল হাদিস'),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(

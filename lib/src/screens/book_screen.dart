@@ -28,13 +28,26 @@ class _BookScreenState extends State<BookScreen> {
 
   initChapterList() async {
     chapterList = await hadithController.getChapters(bookId: widget.book.id);
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: SvgPicture.asset(
+            height: 24,
+            width: 24,
+            'assets/svgs/left-arrow-backup-2-svgrepo-com.svg',
+            semanticsLabel: 'Home Icon',
+            colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+          ),
+        ),
+        titleSpacing: 0,
         title: Text(widget.book.title),
       ),
       body: Container(
@@ -72,7 +85,7 @@ class _BookScreenState extends State<BookScreen> {
                       ),
                     ),
                     Text(
-                      toBengaliNumber((index + 1).toString()),
+                      toBengaliNumber(chapter.number.toString()),
                       style: const TextStyle(
                         fontSize: 14,
                         color: Colors.white,
@@ -85,7 +98,7 @@ class _BookScreenState extends State<BookScreen> {
                   chapter.title,
                   style: const TextStyle(
                     fontSize: 14,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 subtitle: Text(

@@ -29,6 +29,12 @@ class MyApp extends StatelessWidget {
           ),
           appBarTheme: const AppBarTheme(
             surfaceTintColor: Colors.green,
+            titleTextStyle: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+            ),
+            backgroundColor: Colors.green,
           ),
           scaffoldBackgroundColor: const Color.fromARGB(255, 243, 246, 245),
           listTileTheme: ListTileThemeData(
@@ -36,6 +42,14 @@ class MyApp extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
             tileColor: Colors.white,
+          ),
+          cardTheme: CardTheme(
+            surfaceTintColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            margin: EdgeInsets.zero,
+            elevation: 0,
           ),
         ),
         darkTheme: ThemeData.dark().copyWith(
@@ -45,12 +59,26 @@ class MyApp extends StatelessWidget {
           ),
           appBarTheme: const AppBarTheme(
             surfaceTintColor: Colors.green,
+            titleTextStyle: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+            ),
+            backgroundColor: Colors.green,
           ),
           listTileTheme: ListTileThemeData(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
             tileColor: Colors.black,
+          ),
+          cardTheme: CardTheme(
+            surfaceTintColor: Colors.black,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            margin: EdgeInsets.zero,
+            elevation: 0,
           ),
         ),
         themeMode: settingsController.themeMode,

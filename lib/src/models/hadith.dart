@@ -5,8 +5,8 @@ class Hadith {
   final int chapterId;
   final int sectionId;
   final String hadithKey;
-  final int? hadithId;
-  final String? narrator;
+  final int hadithId;
+  final String narrator;
   final String bn;
   final String ar;
   final String arDiacless;

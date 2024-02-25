@@ -99,24 +99,25 @@ class HadithController extends GetxController {
 
     var hadithsBySection = <int, List<Hadith>>{};
     for (var map in hadithRes) {
-      var hadith = Hadith.fromMap(map);
-      hadithsBySection.putIfAbsent(hadith.sectionId, () => []).add(hadith);
+      try {
+        var hadith = Hadith.fromMap(map);
+        hadithsBySection.putIfAbsent(hadith.sectionId, () => []).add(hadith);
+      } catch (e) {
+        // hadith data invalid
+      }
     }
 
     List<Section> sections = [];
     for (var map in res) {
-      sections.add(Section.fromMap(map, hadithsBySection[map['section_id']] ?? []));
+      try {
+        sections.add(Section.fromMap(map, hadithsBySection[map['section_id']] ?? []));
+      } catch (e) {
+        // section data invalid
+      }
     }
 
     return sections;
   }
 
-  Future<int> getNumberOfHadiths() async {
-    var db = await database;
-    var res = await db.rawQuery('SELECT COUNT(*) as Total FROM hadith');
-    int count = res.first['Total'] as int;
-    return count;
-  }
-
-  // Add other methods for insert, update, delete etc.
+  // Add other methods.
 }

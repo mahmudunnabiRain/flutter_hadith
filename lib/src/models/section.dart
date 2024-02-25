@@ -7,9 +7,9 @@ class Section {
   final int chapterId;
   final int sectionId;
   final String title;
-  final String? preface;
-  final int? number;
-  final int? sortOrder;
+  final String preface;
+  final String number;
+  final int sortOrder;
   final List<Hadith> hadiths;
 
   Section({
@@ -19,8 +19,8 @@ class Section {
     required this.chapterId,
     required this.sectionId,
     required this.title,
-    this.preface,
-    this.number,
+    required this.preface,
+    required this.number,
     required this.sortOrder,
     required this.hadiths,
   });
@@ -34,7 +34,7 @@ class Section {
       sectionId: map['section_id'],
       title: map['title'],
       preface: map['preface'],
-      // number: map['number'],
+      number: map['number'],
       sortOrder: map['sort_order'],
       hadiths: hadiths,
     );
