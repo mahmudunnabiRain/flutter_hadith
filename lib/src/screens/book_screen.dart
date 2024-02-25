@@ -76,7 +76,7 @@ class _BookScreenState extends State<BookScreen> {
                       style: const TextStyle(
                         fontSize: 14,
                         color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],

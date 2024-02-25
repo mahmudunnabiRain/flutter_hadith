@@ -67,7 +67,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
                       style: const TextStyle(
                         fontSize: 14,
                         color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ],
